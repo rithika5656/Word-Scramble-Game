@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Scramble - Challenge Your Mind</title>
+    <meta name="description" content="Test your vocabulary with our engaging word scramble game. Multiple difficulty levels, categories, and hints to help you master word puzzles.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="background-animation"></div>
+    
+    <div class="container">
+        <header class="game-header">
+            <h1 class="game-title">
+                <span class="title-icon">🎯</span>
+                Word Scramble
+            </h1>
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <span class="stat-label">Score</span>
+                    <span class="stat-value" id="score">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Streak</span>
+                    <span class="stat-value streak" id="streak">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Lives</span>
+                    <span class="stat-value lives" id="lives">❤️❤️❤️</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Timer</span>
+                    <span class="stat-value" id="timer">60</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Start Screen -->
+        <div class="screen active" id="start-screen">
+            <div class="welcome-card">
+                <h2 class="welcome-title">Welcome to Word Scramble!</h2>
+                <p class="welcome-subtitle">Unscramble the letters to reveal the hidden word</p>
+                
+                <div class="settings-grid">
+                    <div class="setting-group">
+                        <label for="difficulty-select">Difficulty Level</label>
+                        <select id="difficulty-select" class="custom-select">
+                            <option value="easy">🌱 Easy (4-5 letters)</option>
+                            <option value="medium" selected>🌟 Medium (6-7 letters)</option>
+                            <option value="hard">🔥 Hard (8+ letters)</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-group">
+                        <label for="category-select">Category</label>
+                        <select id="category-select" class="custom-select">
+                            <option value="all">🎲 All Categories</option>
+                            <option value="animals">🦁 Animals</option>
+                            <option value="countries">🌍 Countries</option>
+                            <option value="food">🍕 Food</option>
+                            <option value="technology">💻 Technology</option>
+                            <option value="sports">⚽ Sports</option>
+                            <option value="nature">🌳 Nature</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary btn-large" id="start-btn">
+                    <span class="btn-text">Start Game</span>
+                    <span class="btn-icon">🎮</span>
+                </button>
+
+                <div class="features-list">
+                    <div class="feature-item">
+                        <span class="feature-icon">💡</span>
+                        <span>Hint System</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🎯</span>
+                        <span>Multiple Levels</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">📚</span>
+                        <span>Various Categories</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div class="screen" id="game-screen">
+            <div class="game-card">
+                <div class="category-badge" id="current-category">
+                    <span class="badge-icon">🎲</span>
+                    <span class="badge-text">Category</span>
+                </div>
+
+                <div class="word-display">
+                    <div class="scrambled-word" id="scrambled-word">LOADING</div>
+                    <button class="shuffle-btn" id="shuffle-btn" title="Shuffle letters">
+                        🔄
+                    </button>
+                </div>
+
+                <div class="hint-section" id="hint-section">
+                    <div class="hint-text" id="hint-text">Click the hint button below to get a clue!</div>
+                </div>
+
+                <div class="input-section">
+                    <input 
+                        type="text" 
+                        id="answer-input" 
+                        class="answer-input" 
+                        placeholder="Type your answer here..."
+                        autocomplete="off"
+                        spellcheck="false"
+                    >
+                    <button class="btn btn-secondary" id="hint-btn">
+                        <span class="btn-text">Get Hint</span>
+                        <span class="btn-icon">💡</span>
+                    </button>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="submit-btn">
+                        <span class="btn-text">Submit Answer</span>
+                        <span class="btn-icon">✓</span>
+                    </button>
+                    <button class="btn btn-skip" id="skip-btn">
+                        <span class="btn-text">Skip Word</span>
+                        <span class="btn-icon">→</span>
+                    </button>
+                </div>
+
+                <div class="progress-section">
+                    <div class="progress-label">
+                        <span>Word Progress</span>
+                        <span id="word-count">0/10</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div class="screen" id="gameover-screen">
+            <div class="gameover-card">
+                <div class="gameover-icon" id="gameover-icon">🎉</div>
+                <h2 class="gameover-title" id="gameover-title">Game Over!</h2>
+                <p class="gameover-subtitle" id="gameover-subtitle">Great effort!</p>
+
+                <div class="final-stats">
+                    <div class="final-stat">
+                        <div class="final-stat-value" id="final-score">0</div>
+                        <div class="final-stat-label">Final Score</div>
+                    </div>
+                    <div class="final-stat">
+                        <div class="final-stat-value" id="final-streak">0</div>
+                        <div class="final-stat-label">Best Streak</div>
+                    </div>
+                    <div class="final-stat">
+                        <div class="final-stat-value" id="final-accuracy">0%</div>
+                        <div class="final-stat-label">Accuracy</div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary btn-large" id="play-again-btn">
+                        <span class="btn-text">Play Again</span>
+                        <span class="btn-icon">🔄</span>
+                    </button>
+                    <button class="btn btn-secondary" id="change-settings-btn">
+                        <span class="btn-text">Change Settings</span>
+                        <span class="btn-icon">⚙️</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback Modal -->
+    <div class="feedback-modal" id="feedback-modal">
+        <div class="feedback-content">
+            <div class="feedback-icon" id="feedback-icon">✓</div>
+            <div class="feedback-message" id="feedback-message">Correct!</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
